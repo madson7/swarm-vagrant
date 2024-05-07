@@ -1,0 +1,7 @@
+- hosts: all
+  become: true
+  vars:
+    iface: "{{ swarm_iface | default('eth0') }}"
+  roles:
+    - { role: docker }
+    - { role: swarm }

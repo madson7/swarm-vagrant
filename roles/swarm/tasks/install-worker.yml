@@ -1,0 +1,21 @@
+---
+- name: determine swarm status
+  shell: >
+    docker info --format \{\{.Swarm.LocalNodeState\}\}
+  register: swarm_status
+
+- name: create swarm_worker_operational group
+  add_host:
+    hostname: "{{ item }}"
+    groups: swarm_worker_operational
+  with_items: "{{ ansible_play_hosts | default(play_hosts) }}"
+  when: "'active' in hostvars[item].swarm_status.stdout_lines"
+  run_once: true
+
+- name: create swarm_worker_bootstrap group
+  add_host:
+    hostname: "{{ item }}"
+    groups: swarm_worker_bootstrap
+  with_items: "{{ ansible_play_hosts | default(play_hosts) }}"
+  when: "'active' not in hostvars[item].swarm_status.stdout_lines"
+  run_once: true

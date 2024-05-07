@@ -1,0 +1,3 @@
+[submodule "ansible-swarm-playbook"]
+	path = ansible-swarm-playbook
+	url = https://github.com/devopsjourney1/ansible-swarm-playbook.git
